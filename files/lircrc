@@ -1,0 +1,95 @@
+begin
+ prog = irexec
+ button = ind
+ config = /etc/wifiradio/mailsend.sh
+end
+
+begin
+ prog = irexec
+ button = tv
+ config = /etc/wifiradio/usbplay.sh
+end
+
+begin
+ prog = irexec
+ button = power
+ config = /etc/wifiradio/sleep.sh&
+end
+
+begin
+ prog = irexec
+ button = +
+ config = amixer -q set Speaker 8%+
+end
+
+begin
+ prog = irexec
+ button = -
+ config = amixer -q set Speaker 8%-
+end
+
+begin         
+ prog = irexec      
+ button = prog+
+ config = mpc --no-status next
+end  
+
+begin               
+ prog = irexec      
+ button = prog-
+ config = mpc --no-status prev
+end 
+
+begin
+ prog = irexec
+ button = 1
+ config = mpc --no-status play 1
+end
+
+begin
+ prog = irexec
+ button = 2
+ config = mpc --no-status play 2
+end
+
+begin
+ prog = irexec
+ button = 3
+ config = mpc --no-status play 3     
+end
+
+begin
+ prog = irexec
+ button = 4
+ config = mpc --no-status play 4
+end
+
+begin
+ prog = irexec
+ button = 5
+ config = mpc --no-status play 5
+end
+
+begin
+ prog = irexec
+ button = 6
+ config = mpc --no-status play 6
+end
+
+begin
+ prog = irexec
+ button = 7
+ config = mpc --no-status play 7
+end
+
+begin
+ prog = irexec
+ button = 8 
+ config = mpc --no-status play 8
+end
+
+begin
+ prog = irexec
+ button = 9
+ config = mpc --no-status play 9
+end
