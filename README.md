@@ -5,6 +5,9 @@ Use a soundcard input to receive infrared remote control signals.
 
 For more information, see http://wiki.openwrt.org/doc/howto/lirc-audio_alsa.
 
+Using
+--
+
 For a simplified circuit, see http://www.lirc.org/ir-audio.html (basically just an infrared receiver connected to the soundcard input).
 
 For calibration, see http://www.lirc.org/html/audio-alsa.html.
