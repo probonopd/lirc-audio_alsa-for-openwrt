@@ -1,4 +1,4 @@
-LIRC audio_alsa for OpenWrt
+LIRC audio_alsa for OpenWrt [![Build Status](https://travis-ci.org/probonopd/lirc-audio_alsa-for-openwrt.svg)](https://travis-ci.org/probonopd/lirc-audio_alsa-for-openwrt)
 ===========================
 
 Use a soundcard input to receive infrared remote control signals.
