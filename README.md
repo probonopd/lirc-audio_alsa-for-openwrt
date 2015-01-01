@@ -3,6 +3,7 @@ LIRC audio_alsa for OpenWrt [![Build Status](https://travis-ci.org/probonopd/lir
 
 Use a soundcard input to receive infrared remote control signals.
 
+This repository contains a mirror of the (now defunct) https://files.myopera.com/danitool/livebox/wifiradio/lirc-audio_alsa-AA.zip mentioned on the OpenWrt wiki page.
 For more information, see http://wiki.openwrt.org/doc/howto/lirc-audio_alsa.
 
 Using
@@ -12,7 +13,14 @@ For a simplified circuit, see http://www.lirc.org/ir-audio.html (basically just 
 
 For calibration, see http://www.lirc.org/html/audio-alsa.html.
 
-This repository contains a mirror of the (now defunct) https://files.myopera.com/danitool/livebox/wifiradio/lirc-audio_alsa-AA.zip mentioned on the OpenWrt wiki page.
+These commands do not error for me on ar71xx:
+```
+mkdir -p /var/run/lirc/
+mode2 --driver=audio_alsa -d plughw@24000
+irrecord  --driver=audio_alsa -d plughw@24000 foo
+lircd --driver=audio_alsa -d plughw@24000
+irw
+```
 
 Downloading
 --
