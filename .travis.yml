@@ -29,7 +29,7 @@ script:
 - export PATH=$TRAVIS_BUILD_DIR/local/usr/bin:$PATH
 - cd $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*
 - ./scripts/feeds update packages >/dev/null
-- ./scripts/feeds install libs/alsa-lib
+- ./scripts/feeds install alsa-utils
 - make V=s
 - find $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*/bin/
 - find . -name *.ipk -exec cp {} $TRAVIS_BUILD_DIR \;
