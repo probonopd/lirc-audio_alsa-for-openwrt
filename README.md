@@ -13,7 +13,7 @@ For a simplified circuit, see http://www.lirc.org/ir-audio.html (basically just 
 
 For calibration, see http://www.lirc.org/html/audio-alsa.html.
 
-These commands do not error for me on ar71xx:
+These commands run for me on ar71xx:
 ```
 mkdir -p /var/run/lirc/
 mode2 --driver=audio_alsa -d plughw@24000
@@ -21,6 +21,8 @@ irrecord  --driver=audio_alsa -d plughw@24000 foo
 lircd --driver=audio_alsa -d plughw@24000
 irw
 ```
+
+However, after having pressed a key on the infrared remote control, mode2 gives `readdata() failed` and then exits.
 
 Downloading
 --
