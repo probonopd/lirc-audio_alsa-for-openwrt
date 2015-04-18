@@ -22,7 +22,7 @@ lircd --driver=audio_alsa -d plughw@24000
 irw
 ```
 
-However, after having pressed a key on the infrared remote control, mode2 gives `readdata() failed` and then exits.
+However, after having pressed a key on the infrared remote control, mode2 gives `readdata() failed` and then exits. Also whe  running irrecord, I get after a few key presses: `irrecord: gap not found, can't continue`. FIXME: How can this be solved? Hardware issue? Software issue? Using a 100 nF capacitor between the signal pin of the IR receiver and the audio input does not seem to help.
 
 Downloading
 --
