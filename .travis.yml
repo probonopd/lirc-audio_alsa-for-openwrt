@@ -32,15 +32,15 @@ script:
 - "for PKG in $BASE_PACKAGES $PACKAGES; do for action in download prepare compile install;do make package/$PKG/$action V=s;done;done"
 - find $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*/bin/
 - mkdir -p $TRAVIS_BUILD_DIR/releases/${RELEASE}
-- find . -name *.ipk -exec cp {} $TRAVIS_BUILD_DIR/releases/ \;
-- rename "s/.ipk$/.${RELEASE}.ipk/" $TRAVIS_BUILD_DIR/releases/*.ipk
+- find . -name *.ipk -exec cp -v {} $TRAVIS_BUILD_DIR/releases/ \;
+- rename -v "s/.ipk/.${RELEASE}.ipk/" $TRAVIS_BUILD_DIR/releases/*.ipk
 
 before_deploy: git fetch --tags
 deploy:
   provider: releases
   skip_cleanup: true
   file_glob: true
-  file: "$TRAVIS_BUILD_DIR/releases/*/*.ipk"
+  file: "$TRAVIS_BUILD_DIR/releases/*.ipk"
   api_key:
     secure: ICO8DN8sDFb/V1iJNWkyMUvFZO8FWoufTdgbuWQ2NggNWNSEvCpdID0fWi1KyWAnBxPdQ43flK4WDKX1MLhl9WeK7OK+zFuPmLVuYGJIcrwgp5zy3LB7Bc92SOTkNX2930wsN3waRsXdF2R+Sg+JO+1BPbpNGXFRY+W2wVVG0/64inePFQPBlVEkLmVHd3ghF44iioIwsUDf7t/aspJW+U1ZYC3M6Jdtfo3CGnsfo4s79pHt6EXFswmsiMVHcMvw/p5PiaV/dzIgTv8HAvfY3QeWXFEgylDbCVeM4wt09pesKeyS5YGsGLgk9RKcIJ59DflvTbqyUVMa5TE1RWp4qGNvZ1y7jrdgyDYxwTvyyUzV3DtQdll9/xJe9dfILQbR5nZMw8zxnK3qtIHJzLhjTxbUN75dCDr064zdWurl7xQgumjvzvwejkBZhVCrcbH9BfOV4BswmtubUgX4ehzafnpNatM4FblY+jeX+Loj9dYFJQil1I9S+Yd2ICkif1Y4leiGWiDdOij0tOPAfwgXkQHBA1c+9jYItNObsRYPxbyjsyfTiCOZ01Uf/XTMaYAB5IQbMb0pZ7i6X8B7tjYJsMMUx0y3qWJGB9VbN+3CRGu3IJoCbXhY+tLDuQ7hkA5IoEIEao/XzkVp4Mpl39FPamIcWZtpdu2SX8Xrp2vTQfs=
   on:
