@@ -30,7 +30,7 @@ script:
 - export PATH=$TRAVIS_BUILD_DIR/local/usr/bin:$PATH
 - cd $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*
 - "./scripts/feeds update packages >/dev/null"
-- "./scripts/feeds install libevent >/dev/null"
+- "for PKG in $BASE_PACKAGES; do ./scripts/feeds install $PKG >/dev/null;done"
 - echo $PWD
 - "for PKG in $BASE_PACKAGES $PACKAGES; do for action in download prepare compile install;do make package/$PKG/$action V=s;done;done"
 - find $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*/bin/
