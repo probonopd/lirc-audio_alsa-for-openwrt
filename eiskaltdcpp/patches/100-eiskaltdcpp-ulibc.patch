@@ -1,0 +1,98 @@
+--- a/dcpp/HashManager.cpp
++++ b/dcpp/HashManager.cpp
+@@ -876,10 +876,10 @@ bool HashManager::Hasher::fastHash(const string& filename, uint8_t* , TigerTree&
+             break;
+         }
+ 
+-        if (posix_madvise(buf, size_read, POSIX_MADV_SEQUENTIAL | POSIX_MADV_WILLNEED) == -1) {
++/*        if (posix_madvise(buf, size_read, POSIX_MADV_SEQUENTIAL | POSIX_MADV_WILLNEED) == -1) {
+             dcdebug("Error calling madvise for file %s: %s\n", filename.c_str(), Util::translateError(errno).c_str());
+             break;
+-        }
++        }*/
+ 
+         if(maxHashSpeed > 0) {
+             uint64_t now = GET_TICK();
+--- a/eiskaltdcpp-daemon/utility.cpp
++++ b/eiskaltdcpp-daemon/utility.cpp
+@@ -18,6 +18,7 @@
+ #include <syslog.h>
+ #include <sys/stat.h>
+ #endif
++#include <stdlib.h>
+ #if (defined(__GNUC__) && !defined(__clang__)) && (__GNUC__ == 4 && __GNUC_MINOR__ < 7)
+ #include <boost/lexical_cast.hpp>
+ #define USE_BOOST_LEXICAL_CAST 1
+@@ -89,7 +90,7 @@ bool splitMagnet(const string &magnet, string &name, int64_t &size, string &tth)
+ #if defined(USE_BOOST_LEXICAL_CAST)
+         size = boost::lexical_cast<long long>(params["xl"]);
+ #else
+-        size = stoll(params["xl"]);
++        size = strtoll(params["xl"].c_str(), nullptr, 0);
+ #endif
+         name = params["dn"];
+         return true;
+--- a/json/jsoncpp/src/json_value.cpp
++++ b/json/jsoncpp/src/json_value.cpp
+@@ -17,6 +17,7 @@
+ #include <stdexcept>
+ #include <cstring>
+ #include <cassert>
++#include <stdlib.h>
+ #ifdef JSON_USE_CPPTL
+ # include <cpptl/conststring.h>
+ #endif
+@@ -745,7 +746,7 @@ Value::asInt() const
+ #if defined(USE_BOOST_LEXICAL_CAST)
+       return Int(boost::lexical_cast<int>(value_.string_));
+ #else
+-      return Int(std::stoi(value_.string_));
++      return Int(strtol(value_.string_, nullptr, 0));
+ #endif
+    case intValue:
+       JSON_ASSERT_MESSAGE(isInt(), "LargestInt out of Int range");
+@@ -775,7 +776,7 @@ Value::asUInt() const
+ #if defined(USE_BOOST_LEXICAL_CAST)
+       return UInt(boost::lexical_cast<unsigned long>(value_.string_));
+ #else
+-      return UInt(std::stoul(value_.string_));
++      return UInt(strtoul(value_.string_, nullptr, 0));
+ #endif
+    case intValue:
+       JSON_ASSERT_MESSAGE(isUInt(), "LargestInt out of UInt range");
+@@ -808,7 +809,7 @@ Value::asInt64() const
+ #if defined(USE_BOOST_LEXICAL_CAST)
+       return Int64(boost::lexical_cast<long long>(value_.string_));
+ #else
+-      return Int64(std::stoll(value_.string_));
++      return Int64(strtoll(value_.string_, nullptr, 0));
+ #endif
+    case intValue:
+       return Int64(value_.int_);
+@@ -838,7 +839,7 @@ Value::asUInt64() const
+ #if defined(USE_BOOST_LEXICAL_CAST)
+       return UInt64(boost::lexical_cast<unsigned long long>(value_.string_));
+ #else
+-      return UInt64(std::stoull(value_.string_));
++      return UInt64(strtoull(value_.string_, nullptr, 0));
+ #endif
+    case intValue:
+       JSON_ASSERT_MESSAGE(isUInt64(), "LargestInt out of UInt64 range");
+@@ -891,7 +892,7 @@ Value::asDouble() const
+ #if defined(USE_BOOST_LEXICAL_CAST)
+       return boost::lexical_cast<double>(value_.string_);
+ #else
+-      return std::stod(value_.string_);
++      return strtod(value_.string_, nullptr);
+ #endif
+    case intValue:
+       return static_cast<double>( value_.int_ );
+@@ -922,7 +923,7 @@ Value::asFloat() const
+ #if defined(USE_BOOST_LEXICAL_CAST)
+       return boost::lexical_cast<float>(value_.string_);
+ #else
+-      return std::stof(value_.string_);
++      return strtof(value_.string_, nullptr);
+ #endif
+    case intValue:
+       return static_cast<float>( value_.int_ );
