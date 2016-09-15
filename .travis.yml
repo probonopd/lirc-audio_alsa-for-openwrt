@@ -5,7 +5,7 @@ language: c
 compiler: gcc
 env:
   global:
-  - PACKAGES="uhub opendchub"
+  - PACKAGES="uhub opendchub coreutils coreutils-stdbuf"
   - BASE_PACKAGES="libevent librt"
   matrix:
   - RELEASE=Barrier_Breaker SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
