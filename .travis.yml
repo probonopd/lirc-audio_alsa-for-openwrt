@@ -8,8 +8,10 @@ env:
   - PACKAGES="uhub opendchub coreutils coreutils-stdbuf sed"
   - BASE_PACKAGES="libevent librt"
   matrix:
-  - RELEASE=Barrier_Breaker SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
-  - RELEASE=Chaos_Calmer SDK_URL=https://downloads.openwrt.org/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
+  - RELEASE=Barrier_Breaker SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+  - RELEASE=Chaos_Calmer SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
+  #- RELEASE=Barrier_Breaker SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+  #- RELEASE=Chaos_Calmer SDK_URL=https://downloads.openwrt.org/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
 install:
 - mkdir -p $TRAVIS_BUILD_DIR/local ; cd $TRAVIS_BUILD_DIR/local
 - wget "http://us.archive.ubuntu.com/ubuntu/pool/main/c/ccache/ccache_3.1.6-1_amd64.deb"
