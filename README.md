@@ -7,5 +7,4 @@ Travis builds packages so we don't have to.
 
 TODO
 ====
-- eiskaltdcpp stolen from https://github.com/kraiz/eiskaltdcpp-daemon-openwrt
-  - thanks mate, should have "git submodule"
+- use eiskaltdcpp from https://github.com/kraiz/eiskaltdcpp-daemon-openwrt
