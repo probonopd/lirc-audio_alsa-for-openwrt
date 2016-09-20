@@ -43,13 +43,24 @@ CMAKE_OPTIONS =
 
 define Package/uhub/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uhub $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/uhub $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uhub-admin $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/uhub-passwd $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/etc/uhub/
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/doc/uhub.conf $(1)/etc/uhub/
+	$(INSTALL_DIR) $(1)/usr/lib/uhub/
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/uhub/mod_welcome.so $(1)/usr/lib/uhub/
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/uhub/mod_logging.so $(1)/usr/lib/uhub/
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/uhub/mod_chat_history.so $(1)/usr/lib/uhub/
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/uhub/mod_topic.so $(1)/usr/lib/uhub/
+	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/uhub/mod_auth_simple.so $(1)/usr/lib/uhub/
+	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/uhub/uhub.conf $(1)/etc/uhub/
+	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/uhub/plugins.conf $(1)/etc/uhub/
+	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/uhub/rules.txt $(1)/etc/uhub/
 endef
 
 define Package/uhub/conffiles
 /etc/uhub/uhub.conf
+/etc/uhub/plugins.conf
 endef
 
 $(eval $(call BuildPackage,uhub))
