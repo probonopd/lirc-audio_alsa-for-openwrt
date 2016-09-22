@@ -5,7 +5,7 @@ language: c
 compiler: gcc
 env:
   global:
-  - PACKAGES="uhub opendchub sed"
+  - PACKAGES="uhub opendchub sed ncdc"
   - BASE_PACKAGES="libevent bzip2 libsqlite3"
   matrix:
   - RELEASE=Barrier_Breaker SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
