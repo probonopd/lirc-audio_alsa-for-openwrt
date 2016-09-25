@@ -8,6 +8,7 @@ Travis builds packages so we don't have to.
 Packages
 ========
 * pure-ftpd from `git://git.openwrt.org/12.09/packages.git` `net/pure-ftpd`
+* proftpd from `git://git.openwrt.org/12.09/packages.git` `net/proftpd`
 
 TODO
 ====
