@@ -9,7 +9,7 @@ Packages
 ========
 * pure-ftpd from `git://git.openwrt.org/12.09/packages.git` `net/pure-ftpd`
 * proftpd from `git://git.openwrt.org/12.09/packages.git` `net/proftpd`
-
+* collectd-mod-write-graphite from `./feeds/packages/utils/collectd`
 TODO
 ====
 - use eiskaltdcpp from https://github.com/kraiz/eiskaltdcpp-daemon-openwrt
