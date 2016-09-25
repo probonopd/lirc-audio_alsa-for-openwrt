@@ -1,26 +1,24 @@
-index 540c54a..24c5711 100644
---- a/feeds/packages/utils/collectd/Makefile
-+++ b/feeds/packages/utils/collectd/Makefile
-@@ -73,7 +73,6 @@ COLLECTD_PLUGINS_DISABLED:= \
-        uuid \
-        varnish \
-        vserver \
--       write_graphite \
-        write_mongodb \
-        write_redis \
-        write_riemann \
-@@ -135,6 +134,7 @@ COLLECTD_PLUGINS_SELECTED:= \
-        users \
-        vmem \
-        wireless \
-+       write_graphite \
-        write_http \
+--- feeds/packages/utils/collectd/Makefile	2016-09-25 21:17:44.544906695 +0000
++++ feeds/packages/utils/collectd/Makefile.new	2016-09-25 21:11:45.279620042 +0000
+@@ -73,7 +73,6 @@
+ 	uuid \
+ 	varnish \
+ 	vserver \
+-	write_graphite \
+ 	write_mongodb \
+ 	write_redis \
+ 	write_riemann \
+@@ -136,6 +135,7 @@
+ 	vmem \
+ 	wireless \
+ 	write_http \
++	write_graphite \
  
  PKG_CONFIG_DEPENDS:= \
-@@ -329,4 +329,5 @@ $(eval $(call BuildPlugin,uptime,uptime status input,uptime,))
+ 	$(patsubst %,CONFIG_PACKAGE_collectd-mod-%,$(subst _,-,$(COLLECTD_PLUGINS_SELECTED))) \
+@@ -329,4 +329,5 @@
  $(eval $(call BuildPlugin,users,user logged in status input,users,))
  $(eval $(call BuildPlugin,vmem,virtual memory usage input,vmem,))
  $(eval $(call BuildPlugin,wireless,wireless status input,wireless,))
 +$(eval $(call BuildPlugin,write-graphite,graphite output,write_graphite,))
  $(eval $(call BuildPlugin,write-http,HTTP POST output,write_http,+PACKAGE_collectd-mod-write-http:libcurl))
-

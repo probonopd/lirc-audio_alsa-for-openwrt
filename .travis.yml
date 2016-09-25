@@ -6,7 +6,7 @@ compiler: gcc
 env:
   global:
   - PACKAGES="uhub opendchub sed pure-ftpd proftpd"
-  - BASE_PACKAGES="libevent collectd-mod-write-graphite"
+  - BASE_PACKAGES="libevent collectd"
   matrix:
   - RELEASE=Barrier_Breaker SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
   - RELEASE=Chaos_Calmer SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
@@ -25,16 +25,14 @@ install:
 - file $FILE
 - tar xjf $FILE
 - cd $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*
-- "for PKG in $PACKAGES; do ln -vs $TRAVIS_BUILD_DIR/$PKG package/$PKG ;done"
+- "for PKG in $PACKAGES; do ln -vs $TRAVIS_BUILD_DIR/packages/$PKG package/$PKG ;done"
 - ls -al package/
 script:
 - export PATH=$TRAVIS_BUILD_DIR/local/usr/bin:$PATH
 - cd $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*
 - "./scripts/feeds update packages   >/dev/null 2>&1"
 - "for PKG in $BASE_PACKAGES; do ./scripts/feeds install $PKG >/dev/null 2>1;done"
-- cat feeds/packages/utils/collectd/Makefile
-- patch -p1 < $TRAVIS_BUILD_DIR/patches/collectd.patch || true
-- echo $PWD
+- patch -p0 < $TRAVIS_BUILD_DIR/patches/collectd.patch || true
 - "for PKG in $BASE_PACKAGES $PACKAGES; do for action in download prepare compile install;do make package/$PKG/$action V=99;done;done"
 - find $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*/bin/
 - mkdir -p $TRAVIS_BUILD_DIR/releases/${RELEASE}
