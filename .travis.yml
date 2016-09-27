@@ -28,7 +28,7 @@ script:
 - "./scripts/feeds update packages   >/dev/null 2>&1"
 - "for PKG in $BASE_PACKAGES; do ./scripts/feeds install $PKG >/dev/null 2>1;done"
 - patch -p0 < $TRAVIS_BUILD_DIR/patches/collectd.patch || true
-- "for PKG in $BASE_PACKAGES $PACKAGES; do for action in download prepare compile install;do make package/$PKG/$action V=99;done;done"
+- "for PKG in $BASE_PACKAGES $PACKAGES; do for action in download prepare compile install;do make package/$PKG/$action ;done;done"
 - find $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*/bin/
 - mkdir -p $TRAVIS_BUILD_DIR/releases/${RELEASE}
 - find . -name *.ipk -exec cp -v {} $TRAVIS_BUILD_DIR/releases/ \;
