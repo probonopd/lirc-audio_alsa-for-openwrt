@@ -6,7 +6,7 @@ compiler: gcc
 env:
   matrix:
   - BASE_PACKAGES="libevent collectd" PACKAGES="uhub opendchup sed" RELEASE=Chaos_Calmer SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
-  - BASE_PACKAGES="collectd" PACKAGES="pure-ftpd proftpd" RELEASE=Chaos_Calmer SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/kirkwood/generic/OpenWrt-SDK-15.05.1-kirkwood_gcc-4.8-linaro_uClibc-0.9.33.2_eabi.Linux-x86_64.tar.bz2
+  - BASE_PACKAGES="collectd" PACKAGES="pure-ftpd proftpd bonniexx" RELEASE=Chaos_Calmer SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/kirkwood/generic/OpenWrt-SDK-15.05.1-kirkwood_gcc-4.8-linaro_uClibc-0.9.33.2_eabi.Linux-x86_64.tar.bz2
   # official mirrors are TOO DAMN SLOW!
   #- RELEASE=Chaos_Calmer SDK_URL=https://downloads.openwrt.org/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
 install:

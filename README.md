@@ -10,6 +10,8 @@ Packages
 * pure-ftpd from `git://git.openwrt.org/12.09/packages.git` `net/pure-ftpd`
 * proftpd from `git://git.openwrt.org/12.09/packages.git` `net/proftpd`
 * collectd-mod-write-graphite from `./feeds/packages/utils/collectd`
+* bonniexx from https://dev.openwrt.org/browser/packages/utils/bonnie%2B%2B?rev=39798&order=name
+
 TODO
 ====
 - use eiskaltdcpp from https://github.com/kraiz/eiskaltdcpp-daemon-openwrt
