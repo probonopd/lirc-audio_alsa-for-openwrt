@@ -1,0 +1,42 @@
+FROM ubuntu:16.04
+
+RUN apt-get update && \
+    apt-get install -y git-core subversion build-essential gcc-multilib \
+                       libncurses5-dev libssl-dev libncurses5-dev \
+                       unzip gawk zlib1g-dev gawk flex wget unzip python \
+                       sudo mercurial zlib1g-dev file gettext ccache curl \
+                       vim
+
+
+RUN useradd --home-dir /buildsystem --shell /bin/bash -m openwrt &&\
+    echo 'openwrt ALL=NOPASSWD: ALL' > /etc/sudoers.d/openwrt
+
+#ENV SDK_URL ftp://ftp.stw-bonn.de/pub/openwrt/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+# ENV SDK_URL ftp://ftp.stw-bonn.de/pub/openwrt/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+#ENV SDK_URL ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
+ENV SDK_URL ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/kirkwood/generic/OpenWrt-SDK-15.05.1-kirkwood_gcc-4.8-linaro_uClibc-0.9.33.2_eabi.Linux-x86_64.tar.bz2
+WORKDIR /buildsystem
+ENV HOME /buildsystem
+RUN curl $SDK_URL | tar jx --strip-components=1
+RUN ./scripts/feeds update -a
+
+
+RUN (cat feeds.conf.default ; echo 'src-link custom /buildsystem/custom' ) > feeds.conf
+
+# ADD packages custom-packages/
+# RUN ./scripts/feeds update custom
+
+RUN chown -R openwrt /buildsystem
+ADD run.sh run.sh
+RUN chmod +x run.sh
+
+RUN mkdir bin configs
+VOLUME /buildsystem/patches
+VOLUME /buildsystem/custom
+# RUN ./scripts/feeds update custom && ./scripts/feeds install -a
+# output
+VOLUME /buildsystem/bin
+# store configuration files (.config) and expose them to the container
+VOLUME /buildsystem/configs
+
+# CMD ["/run.sh"]

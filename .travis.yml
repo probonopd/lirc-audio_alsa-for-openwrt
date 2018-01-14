@@ -4,13 +4,11 @@ notifications:
 language: c
 compiler: gcc
 env:
-  global:
-    - PACKAGE=lirc
   matrix:
-    - SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
-    - SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/kirkwood/generic/OpenWrt-SDK-kirkwood-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
-    - SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/lantiq/xway/OpenWrt-SDK-lantiq-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
-    - SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/ramips/rt305x/OpenWrt-SDK-ramips-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+  - BASE_PACKAGES="libevent" PACKAGES="uhub opendchub sed" RELEASE=Chaos_Calmer SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
+  - BASE_PACKAGES="" PACKAGES="bonniexx proftpd findutils sysstat" RELEASE=Chaos_Calmer SDK_URL=ftp://ftp.stw-bonn.de/pub/openwrt/chaos_calmer/15.05.1/kirkwood/generic/OpenWrt-SDK-15.05.1-kirkwood_gcc-4.8-linaro_uClibc-0.9.33.2_eabi.Linux-x86_64.tar.bz2
+  # official mirrors are TOO DAMN SLOW!
+  #- RELEASE=Chaos_Calmer SDK_URL=https://downloads.openwrt.org/chaos_calmer/15.05.1/ar71xx/generic/OpenWrt-SDK-15.05.1-ar71xx-generic_gcc-4.8-linaro_uClibc-0.9.33.2.Linux-x86_64.tar.bz2
 install:
 - mkdir -p $TRAVIS_BUILD_DIR/local ; cd $TRAVIS_BUILD_DIR/local
 - wget "http://us.archive.ubuntu.com/ubuntu/pool/main/c/ccache/ccache_3.1.6-1_amd64.deb"
@@ -22,26 +20,28 @@ install:
 - file $FILE
 - tar xjf $FILE
 - cd $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*
-- mkdir package/$PACKAGE
-- ln -s $TRAVIS_BUILD_DIR/Makefile package/$PACKAGE/
-- ln -s $TRAVIS_BUILD_DIR/files package/$PACKAGE/
+- "for PKG in $PACKAGES; do ln -vs $TRAVIS_BUILD_DIR/packages/$PKG package/$PKG ;done"
+- ls -al package/
 script:
 - export PATH=$TRAVIS_BUILD_DIR/local/usr/bin:$PATH
 - cd $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*
-- ./scripts/feeds update packages >/dev/null
-- ./scripts/feeds install alsa-utils
-- make V=s
+- "./scripts/feeds update packages   >/dev/null 2>&1"
+- "for PKG in $BASE_PACKAGES; do ./scripts/feeds install $PKG >/dev/null 2>1;done"
+- patch -p0 < $TRAVIS_BUILD_DIR/patches/collectd.patch || true
+- "for PKG in $BASE_PACKAGES $PACKAGES; do for action in download prepare compile install;do make package/$PKG/$action ;done;done"
 - find $TRAVIS_BUILD_DIR/sdk/OpenWrt-SDK-*/bin/
-- find . -name *.ipk -exec cp {} $TRAVIS_BUILD_DIR \;
-before_deploy:
-  git fetch --tags
+- mkdir -p $TRAVIS_BUILD_DIR/releases/${RELEASE}
+- find . -name *.ipk -exec cp -v {} $TRAVIS_BUILD_DIR/releases/ \;
+- rename -v "s/.ipk/.${RELEASE}.ipk/" $TRAVIS_BUILD_DIR/releases/*.ipk
+
+before_deploy: git fetch --tags
 deploy:
   provider: releases
-  api_key:
-    secure: HwlxaiiUfWo1AlQeZU/6IDSQxnaAxFVMuu7LLSgGOM97TMX2G9mgCdWTYhHFQzCC34p32EPAWSk5a1L06gK0dFLsdLkRXVhKVVDRUO6RP7Pz9x5fei5zJGS48NyIWT+bZdThhZ0W6l0wSiOCIYiWHbW9X7fR2nFKQNK9tQdGLb8=
   skip_cleanup: true
   file_glob: true
-  file: $TRAVIS_BUILD_DIR/*.ipk
+  file: "$TRAVIS_BUILD_DIR/releases/*.ipk"
+  api_key:
+    secure: ICO8DN8sDFb/V1iJNWkyMUvFZO8FWoufTdgbuWQ2NggNWNSEvCpdID0fWi1KyWAnBxPdQ43flK4WDKX1MLhl9WeK7OK+zFuPmLVuYGJIcrwgp5zy3LB7Bc92SOTkNX2930wsN3waRsXdF2R+Sg+JO+1BPbpNGXFRY+W2wVVG0/64inePFQPBlVEkLmVHd3ghF44iioIwsUDf7t/aspJW+U1ZYC3M6Jdtfo3CGnsfo4s79pHt6EXFswmsiMVHcMvw/p5PiaV/dzIgTv8HAvfY3QeWXFEgylDbCVeM4wt09pesKeyS5YGsGLgk9RKcIJ59DflvTbqyUVMa5TE1RWp4qGNvZ1y7jrdgyDYxwTvyyUzV3DtQdll9/xJe9dfILQbR5nZMw8zxnK3qtIHJzLhjTxbUN75dCDr064zdWurl7xQgumjvzvwejkBZhVCrcbH9BfOV4BswmtubUgX4ehzafnpNatM4FblY+jeX+Loj9dYFJQil1I9S+Yd2ICkif1Y4leiGWiDdOij0tOPAfwgXkQHBA1c+9jYItNObsRYPxbyjsyfTiCOZ01Uf/XTMaYAB5IQbMb0pZ7i6X8B7tjYJsMMUx0y3qWJGB9VbN+3CRGu3IJoCbXhY+tLDuQ7hkA5IoEIEao/XzkVp4Mpl39FPamIcWZtpdu2SX8Xrp2vTQfs=
   on:
     tags: true
     all_branches: true
